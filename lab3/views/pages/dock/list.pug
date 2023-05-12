@@ -1,0 +1,27 @@
+extends ../../layout
+
+block content
+  h3 Dock List
+
+  a(href='/dock/add' class="btn btn-default") Add
+
+  table(class="table")
+    thead
+      tr
+        th ID
+        th Port
+        th Number
+        th Capacity
+        th Minimal submersion
+
+    tbody
+      each dock in docks
+        tr
+          td #{dock.id}
+          td #{dock.port}
+          td #{dock.number}
+          td #{dock.capacity}
+          td #{dock.minimal_submersion}
+          td
+            a(href=`/dock/edit/${dock.id}` class="btn btn-default") Edit
+            a(href=`/dock/remove/${dock.id}` class="btn btn-default") Delete

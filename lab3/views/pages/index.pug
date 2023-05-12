@@ -1,0 +1,21 @@
+﻿extends ../layout
+
+block content
+  div(class='breadcrumb')
+    div= title
+  div.list-group
+    div.list-group-item
+      span(class='list-icon glyphicon glyphicon-briefcase')
+      a(href='/ship/list') Ship
+      a(href='/ship/add')
+        span(class='list-icon glyphicon glyphicon-plus')
+    div.list-group-item
+      span(class='list-icon glyphicon glyphicon-briefcase')
+      a(href='/port/list') Port
+      a(href='/port/add')
+        span(class='list-icon glyphicon glyphicon-plus')
+    div.list-group-item
+      span(class='list-icon glyphicon glyphicon-briefcase')
+      a(href='/dock/list') Dock
+      a(href='/dock/add')
+        span(class='list-icon glyphicon glyphicon-plus')

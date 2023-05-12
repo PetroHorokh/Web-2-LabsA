@@ -1,0 +1,57 @@
+extends ../layout.pug
+
+block prepend styles
+    link(rel='stylesheet' href='//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css')
+
+block content
+    div(class='breadcrumb')
+        li= title
+    form(id='update-form' name='update-form update-form-hidden' class='form-inline update-form' action='')
+        div(class='form-group')
+            div(class='col-md-7')
+                label(for='update_port') New Port
+            div(class='col-md-9')
+                select(id='update_port' name='update_port')
+        div(class='form-group')
+            div(class='col-md-7')
+                label(for='update_number') New Number
+            div(class='col-md-9')
+                input(id='update_number' name='update_number' value='' class='form-control')
+        div(class='form-group')
+            div(class='col-md-7')
+                label(for='update_capacity') New Capacity
+            div(class='col-md-9')
+                input(id='update_capacity' name='update_capacity' value='' class='form-control')
+        div(class='form-group')
+            div(class='col-md-12')
+                button(id='btn-update' type='submit' class='btn btn-primary') Update
+        div(class='form-group')
+            div(class='col-md-12')
+                button(id='btn-cancel' type='button' class='btn btn-danger') Cancel
+
+    form(id='dock-add-form' name='dock-add-form' class='form-inline' action='')
+        div(class='form-group')
+            div(class='col-md-3')
+                label(for='port') Port
+            div(class='col-md-9')
+                select(id='port' name='port')
+        div(class='form-group')
+            div(class='col-md-3')
+                label(for='number') Number
+            div(class='col-md-9')
+                input(id='number' name='number' value='' class='form-control')
+        div(class='form-group')
+            div(class='col-md-3')
+                label(for='capacity') Capacity
+            div(class='col-md-9')
+                input(id='capacity' name='capacity' value='' class='form-control')
+        div(class='form-group')
+            div(class='col-md-12')
+                button(type='submit' class='btn btn-primary') Create
+        div.list-wrapper
+            table(id='dock-list')
+block append scripts
+    script(src='/static/js/models/dock.js')
+    script(src='/static/js/models/port.js')
+    script(src='//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js')
+    script(src='/static/js/views/dock.js')

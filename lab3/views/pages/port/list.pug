@@ -1,0 +1,28 @@
+extends ../../layout
+
+block content
+  h3 Port List
+
+  a(href='/port/add' class="btn btn-default") Add
+
+  table(class="table")
+    thead
+      tr
+        th ID
+        th Name
+        th Number
+        th Country
+        th Address
+
+    tbody
+      each port in ports
+        tr
+          td #{port.id}
+          td #{port.name}
+          td #{port.number}
+          td #{port.country}
+          td #{port.address}
+
+          td
+            a(href=`/port/edit/${port.id}` class="btn btn-default") Edit
+            a(href=`/port/remove/${port.id}` class="btn btn-default") Delete

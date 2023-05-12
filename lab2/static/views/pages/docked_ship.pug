@@ -1,0 +1,59 @@
+extends ../layout.pug
+
+block prepend styles
+    link(rel='stylesheet' href='//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css')
+
+block content
+    div(class='breadcrumb')
+        li= title
+    form(id='docked_ship-add-form' name='docked_ship-add-form' class='form-inline' action='')
+        div(class='form-group')
+            div(class='col-md-3')
+                label(for='ship') Ship
+            div(class='col-md-9')
+                select(id='ship' name='ship')
+        div(class='form-group')
+            div(class='col-md-3')
+                label(for='dock') Dock
+            div(class='col-md-9')
+                select(id='dock' name='dock')
+        div(class='form-group')
+            div(class='col-md-12')
+                button(type='submit' class='btn btn-primary') Create
+        div.list-wrapper
+            table(id='docked_ship-list')
+    form(id='report-ships_on_specific_dock-form' name='report-ships_on_specific_dock-form' class='form-inline' action='')
+        div(class='form-group')
+            div(class='col-md-3 ')
+                label(for='report_dock') Dock
+            div(class='col-md-10')
+                select(id='report_dock' name='report_dock')
+        div(class='form-group')
+            div(class='col-md-3 ')
+                label(for='report_ship') Ships
+            div(class='col-md-10')
+                select(id='report_ship' name='report_ship')
+        div(class='form-group')
+            div(class='col-md-12')
+                button(type='submit' class='btn btn-primary') Find
+    form(id='report-ships_docks_on_specific_port-form' name='report-ships_on_specific_dock-form' class='form-inline' action='')
+        div(class='form-group')
+            div(class='col-md-3 ')
+                label(for='report_port') Port
+            div(class='col-md-10')
+                select(id='report_port' name='report_port')
+        div(class='form-group')
+            div(class='col-md-3 ')
+                label(for='report_docks_ship') Docks and Ships
+            div(class='col-md-10')
+                select(id='report_docks_ship' name='report_docks_ship')
+        div(class='form-group')
+            div(class='col-md-12')
+                button(type='submit' class='btn btn-primary') Find
+block append scripts
+    script(src='/static/js/models/docked_ship.js')
+    script(src='/static/js/models/dock.js')
+    script(src='/static/js/models/ship.js')
+    script(src='/static/js/models/port.js')
+    script(src='//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js')
+    script(src='/static/js/views/docked_ship.js')

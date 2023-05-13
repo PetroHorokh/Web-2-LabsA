@@ -5,7 +5,7 @@ block content
     form(id='port-delete-form' name='port-delete-form' class='form-horizontal' method="POST" action='')
       input(id='id' type="hidden" name='id' value=port.id class='form-control')
       div(class='form-group')
-        div(class='col-md-12') Name: #{port.name}; Surname: #{port.number}; Country:  #{port.country};
+        div(class='col-md-12') Name: #{port.name}; Number: #{port.number}; Country:  #{port.country};
       div(class='form-group')
         div(class='col-md-12')
           button(type='submit' class='btn btn-primary') Delete

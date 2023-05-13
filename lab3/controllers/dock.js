@@ -1,12 +1,11 @@
 const { body, validationResult } = require('express-validator/check')
 const { sanitizeBody } = require('express-validator/filter')
 
-const dockListService = require('../services/dock.all')
+const dockAllService = require('../services/dock.all')
 const dockCreateService = require('../services/dock.create')
 const dockByIdService = require("../services/dock.byId");
 const dockDeleteService = require("../services/dock.delete");
-const dockUpdateService = require("../services/dock.update");
-const portListService = require('../services/port.all')
+const portAllService = require('../services/port.all')
 
 module.exports = {
     index (req, res) {
@@ -14,7 +13,7 @@ module.exports = {
     },
     async dockList (req, res) {
         try {
-            const dockList = await dockListService()
+            const dockList = await dockAllService()
             res.render('pages/dock/list', {
                 docks: dockList
             })
@@ -25,16 +24,16 @@ module.exports = {
             })
         }
     },
-    createDockForm (req, res) {
+    async createDockForm (req, res) {
 
-        const ports = portListService()
+        const portList = await portAllService()
 
         res.render('pages/dock/add', {
-            ports: ports,
+            ports: portList,
         })
     },
     postCreateDock: [
-        body('port')
+        body('port_id')
             .isLength({ min: 1 }).trim().withMessage('Port field must be specified.'),
         body('number')
             .isLength({ min: 1 }).trim().withMessage('Number field must be specified.'),
@@ -51,7 +50,7 @@ module.exports = {
 
             const dockData = req.body
 
-            const ports = portListService()
+            const ports = await portAllService()
 
             const errors = validationResult(req)
 
@@ -68,70 +67,6 @@ module.exports = {
                 }
             } else {
                 res.render('pages/dock/add', {
-                    ports: ports,
-                    errors: errors.array()
-                })
-            }
-        }
-    ],
-    updateDockForm (req, res, next) {
-        dockByIdService(req.params.id)
-            .then(dock => {
-                if (dock) {
-
-                    const ports = portListService()
-
-                    res.render('pages/dock/update', {
-                        ports: ports,
-                        dock: dock
-                    })
-                } else {
-                    const errorNotFound = new Error('Not found')
-                    errorNotFound.status = 404
-                    next(errorNotFound)
-                }
-            })
-            .catch(error => {
-                const errorServer = new Error(`Internal server error: ${error.message}`)
-                errorServer.status = 500
-                next(errorServer)
-            })
-    },
-    putUpdateDock: [
-        body('port')
-            .isLength({ min: 1 }).trim().withMessage('Port field must be specified.'),
-        body('number')
-            .isLength({ min: 1 }).trim().withMessage('Number field must be specified.'),
-        body('capacity')
-            .isLength({ min: 1 }).trim().withMessage('Capacity field must be specified.'),
-        body('minimal_submersion')
-            .isLength({ min: 1 }).trim().withMessage('Minimal submersion field must be specified.'),
-        sanitizeBody('port').escape(),
-        sanitizeBody('number').escape(),
-        sanitizeBody('capacity').escape(),
-        sanitizeBody('minimal_submersion').escape(),
-        (req, res, next) => {
-            const dockData = req.body
-            const ports = portListService()
-            const errors = validationResult(req)
-            if (errors.isEmpty()) {
-                dockUpdateService(dockData)
-                    .then(dock => {
-                        req.flash('info', `Dock in port "${dock.port.toString()}" with number "${dock.number}" is Updated`)
-                        res.redirect('/dock/list')
-                    })
-                    .catch(error => {
-                        res.render('pages/dock/update', {
-                            dock: {},
-                            newDock: dockData,
-                            ports: ports,
-                            errors: [{ msg: error.message }]
-                        })
-                    })
-            } else {
-                res.render('pages/dock/update', {
-                    dock: {},
-                    newDock: dockData,
                     ports: ports,
                     errors: errors.array()
                 })

@@ -1,0 +1,22 @@
+extends ../../layout
+
+block content
+  h3 Docked ship List
+
+  a(href='/docked_ship/add' class="btn btn-default") Arrive
+
+  table(class="table")
+    thead
+      tr
+        th ID
+        th Dock
+        th Ship
+
+    tbody
+      each docked_ship in docked_ships
+        tr
+          td #{docked_ship.id}
+          td #{docked_ship.dock}
+          td #{docked_ship.ship}
+          td
+            a(href=`/docked_ship/remove/${docked_ship.id}` class="btn btn-default") Departure

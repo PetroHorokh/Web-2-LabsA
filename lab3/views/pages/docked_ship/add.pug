@@ -1,0 +1,24 @@
+extends ../../layout
+
+block content
+  div(class='col-md-6')
+    form(id='docked_ship-add-form' name='docked_ship-add-form' class='form-horizontal' method="POST" action='')
+      div(class='form-group')
+        div(class='col-md-3')
+          label(for='dock_id') Dock
+        div(class='col-md-9')
+          <select id='dock_id' name='dock_id' class='form-control'>
+          each dock in docks
+            option(value=dock.id selected=(dock.id === $fn.getPropOrDefault(newDocked_ship, 'dock', 0))) ID : #{dock.id}; Number: #{dock.number};
+          </select>
+      div(class='form-group')
+        div(class='col-md-3')
+          label(for='ship_id') Ship
+        div(class='col-md-9')
+          <select id='ship_id' name='ship_id' class='form-control'>
+          each ship in ships
+            option(value=ship.id selected=(ship.id === $fn.getPropOrDefault(newDocked_ship, 'ship', 0))) ID : #{ship.id}; Name: #{ship.name};
+          </select>
+      div(class='form-group')
+        div(class='col-md-12')
+          button(type='submit' class='btn btn-primary') Arrive

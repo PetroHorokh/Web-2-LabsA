@@ -26,3 +26,12 @@ block content
           td
             a(href=`/ship/edit/${ship.id}` class="btn btn-default") Edit
             a(href=`/ship/remove/${ship.id}` class="btn btn-default") Delete
+  form(id='find_ship-add-form' name='find_ship-add-form' class='form-horizontal' method="GET" action='')
+    div(class='form-group')
+      div(class='col-md-3')
+        label(for='searchString') Search string (by Name)
+      div(class='col-md-9')
+        input(id='searchString' name='searchString' class='form-control')
+    div(class='form-group')
+      div(class='col-md-12')
+        button(type='submit' class='btn btn-primary') Find

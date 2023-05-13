@@ -26,3 +26,13 @@ block content
           td
             a(href=`/port/edit/${port.id}` class="btn btn-default") Edit
             a(href=`/port/remove/${port.id}` class="btn btn-default") Delete
+
+  form(id='fint_port-add-form' name='fint_port-add-form' class='form-horizontal' method="GET" action='')
+    div(class='form-group')
+      div(class='col-md-3')
+        label(for='searchString') Search string (by Name)
+      div(class='col-md-9')
+        input(id='searchString' name='searchString' class='form-control')
+    div(class='form-group')
+      div(class='col-md-12')
+        button(type='submit' class='btn btn-primary') Find

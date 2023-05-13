@@ -9,8 +9,6 @@ router.get('/', docked_shipController.index)
 router.get('/list', docked_shipController.docked_shipList)
 router.get('/add', docked_shipController.createDocked_shipForm)
 router.post('/add', docked_shipController.postCreateDocked_ship)
-router.get('/edit/:id', docked_shipController.updateDocked_shipForm)
-router.post('/edit/:id', docked_shipController.putUpdateDocked_ship)
 router.get('/remove/:id', docked_shipController.deleteDocked_shipFrom)
 router.post('/remove/:id', docked_shipController.deleteDocked_ship)
 

@@ -9,7 +9,7 @@ block content
         div(class='col-md-9')
           <select id='port_id' name='port_id' class='form-control'>
           each port in ports
-            option(value=port.id selected=(port.id == $fn.getPropOrDefault(newDock, 'port', 0))) Name:#{port.name}; Number:#{port.number}; Country:#{port.country};
+            option(value=port.id selected=(port.id == $fn.getPropOrDefault(newDock, 'port', 0))) ID : #{port.id}; Name: #{port.name};
           </select>
       div(class='form-group')
         div(class='col-md-3')
@@ -25,7 +25,7 @@ block content
         div(class='col-md-3')
           label(for='minimal_submersion') Minimal submersion
         div(class='col-md-9')
-          input(id='minimal_submersion' name='minimal_submersion' value=$fn.getPropOrDefault(newDock, 'place') class='form-control')
+          input(id='minimal_submersion' name='minimal_submersion' value=$fn.getPropOrDefault(newDock, 'minimal_submersion') class='form-control')
       div(class='form-group')
         div(class='col-md-12')
           button(type='submit' class='btn btn-primary') Create

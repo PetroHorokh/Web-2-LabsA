@@ -9,8 +9,6 @@ router.get('/', dockController.index)
 router.get('/list', dockController.dockList)
 router.get('/add', dockController.createDockForm)
 router.post('/add', dockController.postCreateDock)
-router.get('/edit/:id', dockController.updateDockForm)
-router.post('/edit/:id', dockController.putUpdateDock)
 router.get('/remove/:id', dockController.deleteDockFrom)
 router.post('/remove/:id', dockController.deleteDock)
 

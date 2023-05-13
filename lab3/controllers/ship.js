@@ -13,7 +13,8 @@ module.exports = {
     },
     async shipList (req, res) {
         try {
-            const shipList = await shipListService()
+            const shipList = (Object.keys(req.query).length === 0 || req.query.searchString === '' )  ? await shipListService() : (await shipListService()).filter(e => e.name.includes(req.query.searchString))
+
             res.render('pages/ship/list', {
                 ships: shipList
             })
@@ -154,5 +155,23 @@ module.exports = {
                     errors: [{ msg: error.message }]
                 })
             })
+    },
+    async findShipByNumber (req, res) {
+        try {
+            const shipList = await shipListService()
+
+            const result = shipList.filter(e => {
+                return e.number.includes(req.query.searchString)
+            })
+
+            res.render('pages/ship/list', {
+                ships: result
+            })
+        } catch (error) {
+            res.render('pages/ship/list', {
+                ships: [],
+                errors: [{ msg: error.message }]
+            })
+        }
     }
 }

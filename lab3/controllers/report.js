@@ -1,9 +1,9 @@
-const trainAllService = require('./../services/train.all')
-const ticketAllService = require('./../services/ticket.all')
+const dockAllService = require('./../services/dock.all');
+const shipAllService = require('./../services/ship.all');
+const portAllService = require('./../services/port.all');
+const docked_shipAllService = require('./../services/docked_ship.all');
+const portByIdService = require("../services/port.byId");
 const {body, validationResult} = require("express-validator/check");
-const {sanitizeBody} = require("express-validator/filter");
-const passengerAllService = require("../services/ship.all");
-const ticketCreateService = require("../services/ticket.create");
 
 module.exports = {
     index (req, res) {
@@ -11,130 +11,71 @@ module.exports = {
     },
     async createReport1Form (req, res) {
 
-        const routes = (await trainAllService()).map(train => train.route.split(":").sort().join(':'))
-        const result = []
-        for(let cycle = 0; cycle < 3; cycle++){
-            if(routes.length === 0){
-                break
-            }
-            let mf = 1;
-            let m = 0;
-            let item = routes[0];
-            for (let i=0; i<routes.length; i++)
-            {
-                for (let j=i; j<routes.length; j++)
-                {
-                    if (routes[i] == routes[j])
-                        m++;
-                    if (mf<m)
-                    {
-                        mf=m;
-                        item = routes[i];
-                    }
-                }
-                m=0;
-            }
+        const dockData = req.query
+        const docks = (await dockAllService()).map(e => ({
+            id: e.id.toString(),
+            number: e.number,
+        }))
 
-            result.push(item)
+        const docked_ship_ids = (await docked_shipAllService())
+            .map(e => ({
+            ship: e.ship.toString(),
+            dock: e.dock.toString(),
+        }))
+            .filter(e => e.dock === dockData.dock_id)
+            .map(e => e.ship)
 
-            for(let i = 0; i < routes.length; i++){
-                if(routes[i] === item) routes.splice(i,1);
-            }
-        }
+        const ships = (await shipAllService()).map(e => ({
+            id: e.id.toString(),
+            name: e.name.toString(),
+            number: e.number.toString(),
+        }))
+            .filter(e => docked_ship_ids.includes(e.id))
+
         try {
-            res.render('pages/report/most_popular_route', {
-                routes: result,
+            res.render('pages/report/report1', {
+                docks: docks,
+                ships: ships,
             })
         } catch (error) {
-            res.render('pages/report/most_popular_route', {
-                routes: [],
+            res.render('pages/report/report1', {
+                docks: docks,
+                ships: [],
                 errors: [{ msg: error.message }]
             })
         }
     },
     async createReport2Form (req, res) {
 
-        const tickets = (await ticketAllService())
-            .map(ticket => ({id: ticket.train.toString(), price: ticket.price}))
-        const trains = (await trainAllService())
-            .filter(train => tickets
-                .map(ticket => ticket.id)
-                .includes(train.id))
-            .map(train => ({id: train.id, route: train.route}))
+        const portData = await portByIdService(req.query.port_id)
 
-        const model = tickets.map(ticket => ({
-            route: trains.find(train => train.id === ticket.id).route,
-            price: ticket.price,
+        const ports = await portAllService()
+
+        const docks = ( await dockAllService()).map(e => ({
+            id: e.id.toString(),
+            port: e.port.toString(),
         }))
+            .filter(e => e.port === req.query.port_id)
+            .map(e => e.id)
 
-        const routes = [...new Set(model.map(e => e.route))]
-
-        const process = []
-
-        routes.forEach(route => {
-            const prices = model.filter(e => e.route === route).map(e => e.price)
-            process.push(
-                {
-                    route: route,
-                    price: prices.reduce((a, b) => a + b, 0)
-                }
-            )
-        })
-
-        const result = process.sort().splice(0,3)
+        const ships_in_docks = (await docked_shipAllService())
+            .map(e => ({
+                ship: e.ship.toString(),
+                dock: e.dock.toString(),
+            }))
+            .filter(e => docks.includes(e.dock))
 
         try {
-            res.render('pages/report/most_profitable_route', {
-                routes: result
+            res.render('pages/report/report2', {
+                ports: ports,
+                ships_in_docks: ships_in_docks,
             })
         } catch (error) {
-            res.render('pages/report/most_profitable_route', {
-                routes: [],
+            res.render('pages/report/report2', {
+                ports: ports,
+                ships_in_docks: [],
                 errors: [{ msg: error.message }]
             })
         }
     },
-    async createReport3Form (req, res) {
-
-        const ticketData = req.query
-
-        const trains = await trainAllService()
-        const tickets = (await ticketAllService()).filter(e => e.train.toString()===ticketData.train_id)
-
-        try {
-            res.render('pages/report/sold_tickets_on_given_train', {
-                trains: trains,
-                tickets: tickets,
-            })
-        } catch (error) {
-            res.render('pages/report/sold_tickets_on_given_train', {
-                trains: trains,
-                tickets: [],
-                errors: [{ msg: error.message }]
-            })
-        }
-    },
-    async createReport4Form (req, res) {
-
-        const trains = await trainAllService()
-        const tickets = await ticketAllService()
-
-        const routes = [...new Set(trains.map(e => e.route.split(":").sort().join(":")))]
-        const used_trains = [...new Set(tickets.map(e => e.train.toString()))]
-        const used_routes = [...new Set(trains.filter(e => used_trains.includes(e.id)).map(e => e.route.split(":").sort().join(":")))]
-
-        const unused_routes = routes.filter(e => !used_routes.includes(e))
-
-        try {
-            res.render('pages/report/routes_without_sold_tickets', {
-                routes: unused_routes,
-            })
-        } catch (error) {
-            res.render('pages/report/routes_without_sold_tickets', {
-                routes: [],
-                errors: [{ msg: error.message }]
-            })
-        }
-    },
-
 }

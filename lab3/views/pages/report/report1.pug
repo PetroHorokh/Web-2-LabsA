@@ -1,0 +1,24 @@
+extends ../../layout
+
+block content
+    div(class='col-md-6')
+        form(id='report-1-form' name='report-1-form' class='form-horizontal' method="GET" action='')
+            div(class='form-group')
+                div(class='col-md-3')
+                    label(for='dock_id') Dock
+                div(class='col-md-9')
+                    <select id='dock_id' name='dock_id' class='form-control'>
+                    each dock in docks
+                        option(value=dock.id selected=(dock.id == $fn.getPropOrDefault(findDock, 'dock', 0))) ID:#{dock.id}; Number:#{dock.number};
+                    </select>
+            div(class='form-group')
+                div(class='col-md-12')
+                    button(type='submit' class='btn btn-primary') Create
+            div(class='form-group')
+                div(class='col-md-3')
+                    label(for='dock_id') Dock
+                div(class='col-md-9')
+                    <select id='dock_id' name='dock_id' class='form-control'>
+                    each ship in ships
+                        option Name:#{ship.name}; Number:#{ship.number};
+                    </select>

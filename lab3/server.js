@@ -18,7 +18,7 @@ const dockRoutes = require('./routes/dock')
 const shipRoutes = require('./routes/ship')
 const portRoutes = require('./routes/port')
 const docked_shipRoutes = require('./routes/docked_ship')
-
+const reportRoutes = require('./routes/report')
 
 const app = express()
 
@@ -45,6 +45,7 @@ app.use('/dock', dockRoutes)
 app.use('/ship', shipRoutes)
 app.use('/port', portRoutes)
 app.use('/docked_ship', docked_shipRoutes)
+app.use('/report', reportRoutes)
 
 app.use(notFoundMiddleware)
 app.use(errorMiddleware)

@@ -6,6 +6,7 @@ const portCreateService = require('../services/port.create')
 const portByIdService = require("../services/port.byId");
 const portDeleteService = require("../services/port.delete");
 const portUpdateService = require("../services/port.update");
+const shipListService = require("../services/ship.all");
 
 module.exports = {
     index (req, res) {
@@ -13,7 +14,8 @@ module.exports = {
     },
     async portList (req, res) {
         try {
-            const portList = await portListService()
+            const portList = (Object.keys(req.query).length === 0 || req.query.searchString === '' )  ? await portListService() : (await portListService()).filter(e => e.name.includes(req.query.searchString))
+
             res.render('pages/port/list', {
                 ports: portList
             })

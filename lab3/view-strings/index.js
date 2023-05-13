@@ -2,6 +2,6 @@
 
 module.exports = {
   site: {
-    title: 'Trains'
+    title: 'Ships'
   }
 }

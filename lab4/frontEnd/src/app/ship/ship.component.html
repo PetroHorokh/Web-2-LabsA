@@ -1,0 +1,153 @@
+<div class="container">
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="row">
+
+    <div class="col">
+      <label>
+        Name:
+        <input type="text" formControlName="name" required class="form-control">
+      </label>
+      <div
+        *ngIf="profileForm.get('name')?.invalid && (profileForm.get('name')?.dirty || profileForm.get('name')?.touched)">
+        <div *ngIf="profileForm.get('name')?.errors?.['required']" class="alert alert-warning">Name is required.
+        </div>
+        <div *ngIf="profileForm.get('name')?.errors?.['minlength']" class="alert alert-warning">Name must be at
+          least 5 characters long.
+        </div>
+        <div *ngIf="profileForm.get('name')?.errors?.['maxlength']" class="alert alert-warning">Name cannot be
+          longer than 30 characters.
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <label>
+        Number:
+        <input type="text" formControlName="number" required class="form-control">
+      </label>
+      <div
+        *ngIf="profileForm.get('number')?.invalid && (profileForm.get('number')?.dirty || profileForm.get('number')?.touched)">
+        <div *ngIf="profileForm.get('number')?.errors?.['required']" class="alert alert-warning">Number is
+          required.</div>
+        <div *ngIf="profileForm.get('number')?.errors?.['max']" class="alert alert-warning">Number
+          must be
+          at max of 999999.
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <label>
+        Country:
+        <input type="text" formControlName="country" required class="form-control">
+      </label>
+      <div
+        *ngIf="profileForm.get('country')?.invalid && (profileForm.get('country')?.dirty || profileForm.get('country')?.touched)">
+        <div *ngIf="profileForm.get('country')?.errors?.['required']" class="alert alert-warning">country is
+          required.</div>
+        <div *ngIf="profileForm.get('country')?.errors?.['minlength']" class="alert alert-warning">country must
+          be at least 1 characters
+          long.
+        </div>
+        <div *ngIf="profileForm.get('country')?.errors?.['maxlength']" class="alert alert-warning">country
+          cannot be longer than 30
+          characters.
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <label>
+        Tonnage:
+        <input type="text" formControlName="tonnage" required class="form-control">
+      </label>
+      <div
+        *ngIf="profileForm.get('tonnage')?.invalid && (profileForm.get('tonnage')?.dirty || profileForm.get('tonnage')?.touched)">
+        <div *ngIf="profileForm.get('tonnage')?.errors?.['required']" class="alert alert-warning">Tonnage is
+          required.</div>
+        <div *ngIf="profileForm.get('tonnage')?.errors?.['min']" class="alert alert-warning">Tonnage must
+          be at least 20
+          long.
+        </div>
+        <div *ngIf="profileForm.get('tonnage')?.errors?.['max']" class="alert alert-warning">Tonnage
+          cannot be bigger than 100
+          characters.
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <label>
+        Submersion:
+        <input type="text" formControlName="submersion" required class="form-control">
+      </label>
+      <div
+        *ngIf="profileForm.get('submersion')?.invalid && (profileForm.get('submersion')?.dirty || profileForm.get('submersion')?.touched)">
+        <div *ngIf="profileForm.get('submersion')?.errors?.['required']" class="alert alert-warning">Submersion is
+          required.</div>
+        <div *ngIf="profileForm.get('submersion')?.errors?.['min']" class="alert alert-warning">Submersion
+          must
+          be at least 1
+          long.
+        </div>
+        <div *ngIf="profileForm.get('submersion')?.errors?.['max']" class="alert alert-warning">Submersion
+          cannot be bigger than 10
+          characters.
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <button type="submit" class="btn btn-primary">Submit</button>
+
+      <div *ngIf="!profileForm.valid && (profileForm.dirty || profileForm.touched)" class="alert alert-warning">
+        Please correct the errors above before submitting.
+      </div>
+    </div>
+
+  </form>
+</div>
+<br />
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h3>Ship information</h3>
+    </div>
+  </div>
+  <div class="row" *ngIf="ships.length > 0">
+    <div class="col-md-12">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Number</th>
+          <th>Country</th>
+          <th>Tonnage</th>
+          <th>Submersion</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let ship of ships">
+          <td>{{ship._id}}</td>
+          <td>{{ship.name}}</td>
+          <td>{{ship.number}}</td>
+          <td>{{ship.country}}</td>
+          <td>{{ship.tonnage}}</td>
+          <td>{{ship.submersion}}</td>
+          <td>
+            <button (click)="onDelete(ship)" class="btn btn-primary">Delete</button>
+            <button (click)="onEdit(ship)" class="btn btn-primary"
+                    style="margin-left: 10px;">Edit</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row" *ngIf="ships.length === 0">
+    <div class="col-md-12">
+      <p>No ships found. Please add.</p>
+    </div>
+  </div>
+</div>

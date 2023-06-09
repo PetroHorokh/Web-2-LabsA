@@ -1,0 +1,48 @@
+<div class="edit-modal">
+  <h1>Edit Ship</h1>
+  <form [formGroup]="editForm">
+    <div class="form-group">
+      <label for="port">Port Name</label>
+      <input type="text" id="port" formControlName="port" class="form-control" />
+      <div
+        *ngIf="editForm.get('port')?.invalid && (editForm.get('port')?.dirty || editForm.get('port')?.touched)">
+        <div *ngIf="editForm.get('port')?.errors?.['required']" class="alert alert-warning">Port name is required.</div>
+        <div *ngIf="editForm.get('port')?.errors?.['minlength']" class="alert alert-warning">Port name must be at least 10 characters long.</div>
+        <div *ngIf="editForm.get('port')?.errors?.['maxlength']" class="alert alert-warning">Port name cannot be longer than 60 characters.</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="number">Number</label>
+      <input type="text" id="number" formControlName="number" class="form-control" />
+      <div
+        *ngIf="editForm.get('number')?.invalid && (editForm.get('number')?.dirty || editForm.get('number')?.touched)">
+        <div *ngIf="editForm.get('number')?.errors?.['required']" class="alert alert-warning">Number is required.</div>
+        <div *ngIf="editForm.get('number')?.errors?.['max']" class="alert alert-warning">Number must be at max of 999999.</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="capacity">Capacity</label>
+      <input id="capacity" formControlName="capacity" class="form-control" />
+      <div
+        *ngIf="editForm.get('capacity')?.invalid && (editForm.get('capacity')?.dirty || editForm.get('capacity')?.touched)">
+        <div *ngIf="editForm.get('capacity')?.errors?.['required']" class="alert alert-warning">Capacity is required.</div>
+        <div *ngIf="editForm.get('capacity')?.errors?.['max']" class="alert alert-warning">Capacity cannot be bigger than 500.</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="minimal_submersion">Minimal Submersion</label>
+      <input id="minimal_submersion" formControlName="minimal_submersion" class="form-control" />
+      <div
+        *ngIf="editForm.get('minimal_submersion')?.invalid && (editForm.get('minimal_submersion')?.dirty || editForm.get('minimal_submersion')?.touched)">
+        <div *ngIf="editForm.get('minimal_submersion')?.errors?.['required']" class="alert alert-warning">Tonnage is required.</div>
+        <div *ngIf="editForm.get('minimal_submersion')?.errors?.['min']" class="alert alert-warning">Tonnage must be at least 10.</div>
+        <div *ngIf="editForm.get('minimal_submersion')?.errors?.['max']" class="alert alert-warning">Tonnage cannot be bigger than 60.</div>
+      </div>
+    </div>
+  </form>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="onCancelClick()">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="onSaveClick()"
+            [disabled]="editForm.invalid">Save</button>
+  </div>
+</div>

@@ -1,0 +1,79 @@
+<div class="container">
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="row">
+
+    <div class="col">
+      <label>
+        Dock:
+        <select formControlName="dock">
+          <option *ngFor="let dock of docks" [value]="dock._id">
+            Dock {{dock.number}}
+          </option>>
+        </select>
+      </label>
+      <div
+        *ngIf="profileForm.get('dock')?.invalid && (profileForm.get('dock')?.dirty || profileForm.get('dock')?.touched)">
+        <div *ngIf="profileForm.get('dock')?.errors?.['required']" class="alert alert-warning">Dock is required.</div>
+      </div>
+    </div>
+
+    <div class="col">
+      <label>
+        Ship:
+        <select formControlName="ship" >
+          <option *ngFor="let ship of ships" [value]="ship._id">
+            Ship {{ship.name}}
+          </option>>
+        </select>
+      </label>
+      <div
+        *ngIf="profileForm.get('ship')?.invalid && (profileForm.get('ship')?.dirty || profileForm.get('ship')?.touched)">
+        <div *ngIf="profileForm.get('ship')?.errors?.['required']" class="alert alert-warning">Dock is required.</div>
+      </div>
+    </div>
+
+    <div class="col">
+      <button type="submit" class="btn btn-primary">Submit</button>
+
+      <div *ngIf="!profileForm.valid && (profileForm.dirty || profileForm.touched)" class="alert alert-warning">
+        Please correct the errors above before submitting.
+      </div>
+    </div>
+  </form>
+</div>
+<br />
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h3>Docked ship information</h3>
+    </div>
+  </div>
+  <div class="row" *ngIf="docked_ships.length > 0">
+    <div class="col-md-12">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Dock id</th>
+          <th>Ship id</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let docked_ship of docked_ships">
+          <td>{{docked_ship._id}}</td>
+          <td>{{docked_ship.dock}}</td>
+          <td>{{docked_ship.ship}}</td>
+          <td>
+            <button (click)="onDelete(docked_ship)" class="btn btn-primary">Delete</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row" *ngIf="docked_ships.length === 0">
+    <div class="col-md-12">
+      <p>No docked ships found. Please add.</p>
+    </div>
+  </div>
+</div>
